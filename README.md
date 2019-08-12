@@ -1,6 +1,7 @@
 # PropertyWrapper
 
 ## PropertyWrapper
+Implement `wrappedValue`, `init(initialValue value: T)`.
 ```swift
 @propertyWrapper
 struct Range<T: Comparable> {
