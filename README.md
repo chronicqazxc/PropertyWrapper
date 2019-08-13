@@ -31,6 +31,7 @@ protocol Character {
     var attack: Int { get }
     var supplyment: Int { get }
     var type: String { get }
+    var level: Int { get }
     mutating func upgrade()
     func status()
 }
@@ -54,7 +55,16 @@ extension Character {
     mutating func upgrade() { }
 
     func status() {
-        print("----\(type)----\nHealth: \(health)\nAttack: \(attack)\nSupplyment: \(supplyment)\n")
+        let message =
+        """
+        ----Status----
+        Level: \(level)
+        Health: \(health)
+        Attack: \(attack)
+        Supplyment: \(supplyment)
+
+        """
+        print(message)
     }
 }
 
@@ -62,11 +72,13 @@ struct Hero: Character {
     @Range(0...100) var health: Int = 100
     @Range(0...100) var attack: Int = 20
     @Range(0...0) var supplyment: Int = 0
+    @Range(1...100) var level: Int = 1
     var type: String {
         return "Hero"
     }
     mutating func upgrade() {
         print("\(type) upgraged")
+        level = level + 1
         health = health + 5
         attack = attack + 5
         status()
@@ -75,8 +87,24 @@ struct Hero: Character {
 
 struct Villian: Character {
     @Range(0...60) var health: Int = 60
-    @Range(0...20) var attack: Int = 20
+    @Range(1...20) var attack: Int = 1
     @Range(0...0) var supplyment: Int = 0
+    @Range(1...20) var level: Int = Int.random(in: 1...20) {
+        didSet {
+            switch level {
+            case 1...5:
+                attack = Int.random(in: 1...5)
+            case 6...10:
+                attack = Int.random(in: 6...10)
+            case 11...15:
+                attack = Int.random(in: 11...15)
+            case 16...20:
+                attack = Int.random(in: 16...20)
+            default:
+                attack = 1
+            }
+        }
+    }
     var type: String {
         return "Villian"
     }
@@ -85,12 +113,14 @@ struct Villian: Character {
 struct Wizard: Character {
     @Range(0...100) var health: Int = 100
     @Range(0...50) var attack: Int = 50
-    @Range(0...20) var supplyment: Int = 5
+    @Range(0...20) var supplyment: Int = 10
+    @Range(1...100) var level: Int = 1
     var type: String {
         return "Wizard"
     }
 
     mutating func upgrade() {
+        level = level + 1
         health = health + 5
         supplyment = supplyment + 5
     }
@@ -99,61 +129,81 @@ struct Wizard: Character {
 
 ## Play game
 ```swift
+print("Game start!")
 var hero = Hero()
 var villian = Villian()
+villian.level = 10
 var wizard = Wizard()
+hero.status()
 hero.gotHit(by: villian)
 hero.gotSupplyment(by: wizard)
 hero.upgrade()
 hero.upgrade()
 hero.upgrade()
-hero.upgrade()
-hero.upgrade()
+villian.gotHit(by: hero)
+villian.gotHit(by: hero)
+print("You win!")
 ```
 
 ## Log
 ```shell
+Game start!
+----Status----
+Level: 1
+Health: 100
+Attack: 20
+Supplyment: 0
+
 Hero got hit by Villian
-----Hero----
-Health: 80
+----Status----
+Level: 1
+Health: 90
 Attack: 20
 Supplyment: 0
 
 Hero got supplyment by Wizard
-----Hero----
-Health: 85
+----Status----
+Level: 1
+Health: 100
 Attack: 20
 Supplyment: 0
 
 Hero upgraged
-----Hero----
-Health: 90
+----Status----
+Level: 2
+Health: 100
 Attack: 25
 Supplyment: 0
 
 Hero upgraged
-----Hero----
-Health: 95
+----Status----
+Level: 3
+Health: 100
 Attack: 30
 Supplyment: 0
 
 Hero upgraged
-----Hero----
+----Status----
+Level: 4
 Health: 100
 Attack: 35
 Supplyment: 0
 
-Hero upgraged
-----Hero----
-Health: 100
-Attack: 40
+Villian got hit by Hero
+----Status----
+Level: 10
+Health: 25
+Attack: 10
 Supplyment: 0
 
-Hero upgraged
-----Hero----
-Health: 100
-Attack: 45
+Villian got hit by Hero
+----Status----
+Level: 10
+Health: 0
+Attack: 10
 Supplyment: 0
+
+You win!
 ```
 
 ## Conclusion
