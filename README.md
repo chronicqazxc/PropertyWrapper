@@ -85,7 +85,7 @@ struct Hero: Character {
     }
 }
 
-struct Villian: Character {
+struct Villain: Character {
     @Range(0...60) var health: Int = 60
     @Range(1...20) var attack: Int = 1
     @Range(0...0) var supplyment: Int = 0
@@ -106,7 +106,7 @@ struct Villian: Character {
         }
     }
     var type: String {
-        return "Villian"
+        return "Villain"
     }
 }
 
@@ -131,17 +131,17 @@ struct Wizard: Character {
 ```swift
 print("Game start!")
 var hero = Hero()
-var villian = Villian()
-villian.level = 10
+var villain = Villain()
+villain.level = 10
 var wizard = Wizard()
 hero.status()
-hero.gotHit(by: villian)
+hero.gotHit(by: villain)
 hero.gotSupplyment(by: wizard)
 hero.upgrade()
 hero.upgrade()
 hero.upgrade()
-villian.gotHit(by: hero)
-villian.gotHit(by: hero)
+villain.gotHit(by: hero)
+villain.gotHit(by: hero)
 print("You win!")
 ```
 
@@ -154,7 +154,7 @@ Health: 100
 Attack: 20
 Supplyment: 0
 
-Hero got hit by Villian
+Hero got hit by Villain
 ----Status----
 Level: 1
 Health: 90
@@ -189,14 +189,14 @@ Health: 100
 Attack: 35
 Supplyment: 0
 
-Villian got hit by Hero
+Villain got hit by Hero
 ----Status----
 Level: 10
 Health: 25
 Attack: 10
 Supplyment: 0
 
-Villian got hit by Hero
+Villain got hit by Hero
 ----Status----
 Level: 10
 Health: 0
