@@ -1,7 +1,6 @@
 # PropertyWrapper
-
+![](https://img.shields.io/badge/Swift-v5.1-blue)
 ## PropertyWrapper
-Version of code: Swift 5.1   
 Implement `wrappedValue`, `init(initialValue value: T)`.
 ```swift
 @propertyWrapper
