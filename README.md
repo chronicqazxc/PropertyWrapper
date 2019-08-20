@@ -1,6 +1,6 @@
 # PropertyWrapper
 
-PropertyWrapper was introduced in [swift-evolution](https://github.com/apple/swift-evolution/blob/master/proposals/0258-property-wrappers.md) by proposal [SE-0258](https://github.com/apple/swift-evolution/blob/master/proposals/0258-property-wrappers.md), you can find more detail in this great article [NSHipster PropertyWrapper](https://nshipster.com/propertywrapper/).
+PropertyWrapper was introduced in [swift-evolution](https://github.com/apple/swift-evolution/blob/master/proposals/0258-property-wrappers.md) by proposal [SE-0258](https://github.com/apple/swift-evolution/blob/master/proposals/0258-property-wrappers.md) and included in Swfit5.1, you can find more detail in this great article [NSHipster PropertyWrapper](https://nshipster.com/propertywrapper/).
 
 ## Usage
 Add `@propertyWrapper` infront of the type you want to define as a property wrapper and implement property `var wrappedValue` for every property wrappers.
