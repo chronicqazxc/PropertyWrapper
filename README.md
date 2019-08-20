@@ -7,14 +7,18 @@ Implement `wrappedValue`, `init(initialValue value: T)`.
 struct Range<T: Comparable> {
     private var value: T
     private var range: ClosedRange<T>
+    private(set) var versions = [Date]()
 
-    init(initialValue value: T, _ range: ClosedRange<T>) {
+    init(wrappedValue value: T, _ range: ClosedRange<T>) {
         self.value = value
         self.range = range
     }
 
     var wrappedValue: T {
         set {
+            defer {
+                versions.append(Date())
+            }
             value = min(max(range.lowerBound, newValue), range.upperBound)
         }
         get {
@@ -69,15 +73,16 @@ extension Character {
 }
 
 struct Hero: Character {
-    @Range(0...100) var health: Int = 100
-    @Range(0...100) var attack: Int = 20
-    @Range(0...0) var supplyment: Int = 0
-    @Range(1...100) var level: Int = 1
+    @Range(wrappedValue: 100, 0...100) var health: Int
+    @Range(wrappedValue: 20, 0...100) var attack: Int
+    @Range(wrappedValue: 0, 0...0) var supplyment: Int
+    @Range(wrappedValue: 1, 1...100) var level: Int
+
     var type: String {
+        print(_health.versions)
         return "Hero"
     }
     mutating func upgrade() {
-        print("\(type) upgraged")
         level = level + 1
         health = health + 5
         attack = attack + 5
@@ -86,10 +91,10 @@ struct Hero: Character {
 }
 
 struct Villain: Character {
-    @Range(0...60) var health: Int = 60
-    @Range(1...20) var attack: Int = 1
-    @Range(0...0) var supplyment: Int = 0
-    @Range(1...20) var level: Int = Int.random(in: 1...20) {
+    @Range(wrappedValue: 60, 0...60) var health: Int
+    @Range(wrappedValue: 1, 1...20) var attack: Int
+    @Range(wrappedValue: 0, 0...0) var supplyment: Int
+    @Range(wrappedValue: Int.random(in: 1...20), 1...20) var level: Int {
         didSet {
             switch level {
             case 1...5:
@@ -111,10 +116,11 @@ struct Villain: Character {
 }
 
 struct Wizard: Character {
-    @Range(0...100) var health: Int = 100
-    @Range(0...50) var attack: Int = 50
-    @Range(0...20) var supplyment: Int = 10
-    @Range(1...100) var level: Int = 1
+    @Range(wrappedValue: 100, 0...100) var health: Int
+    @Range(wrappedValue: 50, 0...50) var attack: Int
+    @Range(wrappedValue: 10, 0...20) var supplyment: Int
+    @Range(wrappedValue: 1, 1...100) var level: Int
+
     var type: String {
         return "Wizard"
     }
